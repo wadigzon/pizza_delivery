@@ -12,17 +12,22 @@ interface ILocation {
     x: number;
     y: number;
 };
-// To get unique Value from two numbers, you can use bijective algorithm described in
-// https://www.lsi.upc.edu/~alvarez/calculabilitat/enumerabilitat.pdf
-const hashCode = (location: ILocation): number => {
-    const tmp = ( location.y +  ((location.x + 1)/2));
-    return location.x +  ( tmp * tmp);
+
+// this guarantees a unique mapping from a pair of coordinates
+// JSON.stringify(...) has decent performance for small objects
+// not recommended for large objects
+const hashCodeString = (location: ILocation): string => {
+    return JSON.stringify(location);
 }
-// define a class
-class DeliveryPerson {
-    pizzaCount: Map<number, number> = new Map<number, number>();
+
+// class definition
+class DeliveryObject {
+    pizzaCounterMap: Map<number | string, number>;
+    hashFunction: Function;
     currentLocation: ILocation;
-    constructor() {
+    constructor(pizzaCounter: Map<number | string, number>, hash: Function) {
+        this.pizzaCounterMap = pizzaCounter;
+        this.hashFunction = hash;
         // initial location
         this.currentLocation = {x: 0, y: 0};
         // one pizza delivered at initial location
@@ -49,30 +54,42 @@ class DeliveryPerson {
         this.updatePizzaCount();
     }
     protected updatePizzaCount() {
-        if (!this.pizzaCount.has(hashCode(this.currentLocation))) {
+        // get key for current location
+        const key = this.hashFunction(this.currentLocation);
+        // have we not been already here ?
+        if (!this.pizzaCounterMap.has(key)) {
             // initialize by delivering a single pizza there
-            this.pizzaCount.set(hashCode(this.currentLocation), 1)
+            this.pizzaCounterMap.set(key, 1)
         } else {
-            const currentCount = this.pizzaCount.get(hashCode(this.currentLocation)) as number;
-            // add one more pizza delivered
-            this.pizzaCount.set(hashCode(this.currentLocation), currentCount + 1);
+            // get current count of delivered pizzas
+            const currentCount = this.pizzaCounterMap.get(key) as number;
+            // update count: one more pizza delivered
+            this.pizzaCounterMap.set(key, currentCount + 1);
         }
     }
     numberOfLocations(): number {
-        return this.pizzaCount.size;
+        return this.pizzaCounterMap.size;
     }
     printCurrentLocation(): void {
         console.log(this.currentLocation);
     }
 }
-// a new delivery guy
-const deliveryPerson = new DeliveryPerson();
+
+// defines the location and counter repo
+const pizzaCounterMap = new Map<number, number>();
+
+// a new delivery guy, injects map repo and hash function
+const deliveryPerson = new DeliveryObject(pizzaCounterMap, hashCodeString);
 
 // iterate through movements
 for(let k=0; k<movements.length; k++) {
+    // move and deliver to that location
     deliveryPerson.move(movements[k]);
 }
 
+// report time!
+console.log('Part1 - Pizza delivery problem')
+console.log('------------------------------')
 console.log('how many houses receive at least one pizza?');
 const answer = deliveryPerson.numberOfLocations();
 console.log(`answer: ${answer}`);
