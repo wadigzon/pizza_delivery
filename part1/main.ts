@@ -69,11 +69,8 @@ class DeliveryPerson {
 const deliveryPerson = new DeliveryPerson();
 
 // iterate through movements
-deliveryPerson.printCurrentLocation();
 for(let k=0; k<movements.length; k++) {
     deliveryPerson.move(movements[k]);
-    deliveryPerson.printCurrentLocation();
-
 }
 
 console.log('how many houses receive at least one pizza?');
