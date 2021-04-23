@@ -20,6 +20,7 @@ $ tsc main.ts | node main.js
 \pizza_delivery\part1>tsc main.ts | node main.js
 
 Part1 - Pizza delivery problem
+
 `------------------------------`
 
 how many houses receive at least one pizza?
@@ -31,6 +32,7 @@ answer: 2565
 \pizza_delivery\part2>tsc main.ts | node main.js
 
 Part2 - Pizza delivery problem
+
 `------------------------------`
 
 how many houses receive at least one pizza?
