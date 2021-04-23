@@ -5,7 +5,7 @@ libraries installed for file processing:
 npm i @types/node
 
 ## Deployment
-Do not forget to do $ npm install on each mini project/directoru (part1 and part2) 
+Do not forget to do $ npm install on each mini project/directory (part1 and part2) 
 after cloning the repo to install library needed for file processing (see above).
 
 To run main executable:
