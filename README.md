@@ -17,6 +17,7 @@ $ tsc main.ts | node main.js
 Sample output for Part1 on Windows system:
 
 >\pizza_delivery\part1>tsc main.ts | node main.js
+>
 >Part1 - Pizza delivery problem
 >------------------------------
 >how many houses receive at least one pizza?
