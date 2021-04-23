@@ -13,21 +13,18 @@ interface ILocation {
     y: number;
 };
 
-// this guarantees a unique mapping from a pair of coordinates
-// JSON.stringify(...) has decent performance for small objects
-// not recommended for large objects
-const hashCodeString = (location: ILocation): string => {
-    return JSON.stringify(location);
+const pairToUniqueString = (location: ILocation): string => {
+    return location.x + ':' + location.y;
 }
 
 // class definition
 class DeliveryObject {
     pizzaCounterMap: Map<number | string, number>;
-    hashFunction: Function;
+    keyMapFunction: Function;
     currentLocation: ILocation;
-    constructor(pizzaCounter: Map<number | string, number>, hash: Function) {
+    constructor(pizzaCounter: Map<number | string, number>, uniqueMapping: Function) {
         this.pizzaCounterMap = pizzaCounter;
-        this.hashFunction = hash;
+        this.keyMapFunction = uniqueMapping;
         // initial location
         this.currentLocation = {x: 0, y: 0};
         // one pizza delivered at initial location
@@ -55,7 +52,7 @@ class DeliveryObject {
     }
     protected updatePizzaCount() {
         // get key for current location
-        const key = this.hashFunction(this.currentLocation);
+        const key = this.keyMapFunction(this.currentLocation);
         // have we not been already here ?
         if (!this.pizzaCounterMap.has(key)) {
             // initialize by delivering a single pizza there
@@ -76,10 +73,10 @@ class DeliveryObject {
 }
 
 // defines the location and counter repo
-const pizzaCounterMap = new Map<number, number>();
+const pizzaCounterMap = new Map<string, number>();
 
 // a new delivery guy, injects map repo and hash function
-const deliveryPerson = new DeliveryObject(pizzaCounterMap, hashCodeString);
+const deliveryPerson = new DeliveryObject(pizzaCounterMap, pairToUniqueString);
 
 // iterate through movements
 for(let k=0; k<movements.length; k++) {
