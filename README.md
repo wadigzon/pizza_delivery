@@ -15,7 +15,7 @@ from console (node and typescript must be installed):
 
 $ tsc main.ts | node main.js
 
-#Sample output for Part1 on Windows system:
+# Sample output for Part1 on Windows system:
 
 \pizza_delivery\part1>tsc main.ts | node main.js
 
