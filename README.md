@@ -15,6 +15,7 @@ from console (node and typescript must be installed):
 $ tsc main.ts | node main.js
 
 Sample output for Part1 on Windows system:
+
 \pizza_delivery\part1>tsc main.ts | node main.js
 Part1 - Pizza delivery problem
 ------------------------------
@@ -22,6 +23,7 @@ how many houses receive at least one pizza?
 answer: 2565
 
 Sample output for Part2 on Windows system:
+
 \pizza_delivery\part2>tsc main.ts | node main.js
 Part2 - Pizza delivery problem
 ------------------------------
